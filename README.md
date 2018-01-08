@@ -13,7 +13,7 @@ do-what-it-says
 
 Type in node liri.js to get the instructions on how to enter the commands correctly. So if you were to type the below command you'd get the last 20 tweets I have on my account
 
-
+[link to giphy] https://github.com/sarahav2/liri-node-app/tree/master/images
 
 
 
