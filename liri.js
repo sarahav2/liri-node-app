@@ -73,5 +73,62 @@ function searchSpotify() {
      });
     }
 //search OMBD for data on movie name passed as argument
+function searchMovie() {
+	var value = process.argv[3] || "Mr. Nobody";
+	var options =  { 
+		url: 'http://www.omdbapi.com/',
+		qs: {
+			t: value,
+			plot: 'short',
+			r: 'json',
+			tomatoes: true
+		}
+	}
+	request(options, function(err, response, body) {
+	if (!err && response.statusCode == 200) {
+		body = JSON.parse(body);
+		console.log("------------------------------------------");
+  		console.log(" " + " " + "OMDB Results" + " " + " ")
+  		console.log("------------------------------------------");
+		console.log("Title: " + body.Title);
+		console.log("Year: " + body.Year);
+		console.log("IMDB Rating: " + body.imdbRating);
+		console.log("Country: " + body.Country);
+		console.log("Language: " + body.Language);
+		console.log("Plot: " + body.Plot);
+		console.log("Actors :" + body.Actors);
+		console.log("Rotten Tomatoes Rating: " + body.tomatoRating);
+		console.log("Rotten Tomatoes URL: " + body.tomatoURL);
+		logData = {Title: body.Title, Year: body.Year, ImdbRating: body.imdbRating, Country: body.Country, Language: body.Language, Plot: body.Plot, Actors: body.Actors, rottenTomatoesRating: body.tomatoRating, rottenTomatoesUrl: body.tomatoURL};
+		writeLog();
+
+       }
+    })
+}
+
 //read text file and execute arguments
-//write
+function readFileExecute() {
+	//reads text files and returns contents to data
+	fs.readFile("random.txt", "utf8", function(error, data) {
+		if (!error) {
+	    // Then split it by commas to make arguments accessible
+	    var textArgs = data.split(',');
+	    
+	    // store arguments as var defined in switch function
+	 	action = textArgs[0];
+	 	value = textArgs[1];
+	 	processArgs();
+		}
+
+	})
+};
+//write function
+function writeLog() {
+	//reads text files and returns contents to data
+	fs.appendFile('log.txt', JSON.stringify(logData, null, "\t"), (err) => {
+	  if ( err ) {
+        console.log('Error occurred: ' + err);
+        return;
+    }
+})
+}
